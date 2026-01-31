@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_password: yashraj
+      POSTGRES_user: urlsortner
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:6000
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
