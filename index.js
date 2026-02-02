@@ -1,6 +1,6 @@
 import express from "express";
 const web = express()
-const PORT = process.env.PORT ?? 5000
+const PORT = process.env.PORT ?? 5432
 
 web.get('/',(req,res)=>{
     return res.json({status: 'server is up and running'})

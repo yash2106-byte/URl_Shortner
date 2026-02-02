@@ -3,13 +3,13 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_password: yashraj
-      POSTGRES_user: urlsortner
+      POSTGRES_PASSWORD: yashraj    # ✅ Fixed capitalization
+      POSTGRES_USER: urlsortner     # ✅ Fixed capitalization
       POSTGRES_DB: postgres
     ports:
-      - 5432:6000
+      - 5433:5432
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql
 
 volumes:
   db_data:
