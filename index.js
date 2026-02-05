@@ -7,4 +7,4 @@ web.get('/',(req,res)=>{
 })
 web.listen(PORT, ()=>{console.log(`your server is up and running at ${PORT}`)})
 
-// docker run urlshortener drizzle-postgres -e POSTGRES_USER=yashraj POSTGRES_PASSWORD=yash2106 -d -p 5432:5432 postgres
+
