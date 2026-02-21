@@ -19,11 +19,11 @@ router.post('/signup',async(req,res)=>{
         const salt = randomBytes(256).toString('hex')
         const hashedpassword = createHmac('sha256', salt).update(Password).digest('hex')
 
-        if (userTable)
+        if (existingUser)
             return res
                 .status(400)
                 .json({error: `user with the email @{email} already exits!`})
-        const user = await db.insert(userTable).value({
+        const [user] = await db.insert(userTable).value({
             email,
             firstname,
             lastname,
