@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres
+    image: postgres:17        # pin to 17 instead of latest
     restart: always
     environment:
         POSTGRES_PASSWORD: yash
