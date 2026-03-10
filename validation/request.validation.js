@@ -1,0 +1,8 @@
+import z from 'zod'
+
+export const signupPost = z.object({
+    firstname: z.string(),
+    lastname: z.string().optimal(),
+    email: z.string().email(),
+    password: z.string().min(3)
+})
