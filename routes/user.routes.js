@@ -4,6 +4,7 @@ import usersTable from '../models/index.js'
 import { createHmac, randomBytes } from 'crypto';
 import { signupPost,loginPost } from '../validation/request.validation.js';
 import { eq } from "drizzle-orm";
+import  jwt  from 'jsonwebtoken'
 import { error } from 'console';
 import { success } from 'zod';
 
@@ -66,9 +67,14 @@ router.post('/login',async(req,res)=>{
         .update(password)
         .digest('hex');
 
-    if (hashedPassword === user.password){
-        res.status(500).json({success:`user login is succefull`})
-    }
+    if (hashedPassword === user.password) {
+    const token = jwt.sign({ id: user.id }, process.env.jwt_in);
+    { expiresIn: "1h" }
+    return res.status(200).json({
+        message: "User login successful",
+        token: token
+    });
+}
     else{
         res.status(400).json({error: `Password entered is invalid`})
     }
