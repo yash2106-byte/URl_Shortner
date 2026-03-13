@@ -6,3 +6,8 @@ export const signupPost = z.object({
     email: z.string().email(),
     password: z.string().min(3)
 })
+
+export const loginPost = z.object({
+    email: z.string(),
+    password: z.string().min(3)
+})

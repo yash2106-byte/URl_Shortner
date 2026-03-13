@@ -2,8 +2,10 @@ import express from 'express'
 import db from '../src/db/index.js'
 import usersTable from '../models/index.js'
 import { createHmac, randomBytes } from 'crypto';
-import { signupPost } from '../validation/request.validation.js';
+import { signupPost,loginPost } from '../validation/request.validation.js';
 import { eq } from "drizzle-orm";
+import { error } from 'console';
+import { success } from 'zod';
 
 const router = express.Router();
 
@@ -38,4 +40,40 @@ router.post('/signup',async(req,res)=>{
 
 })
 
+router.post('/login',async(req,res)=>{
+    const loginresult = await loginPost.safeParseAsync(req.body);
+
+    if (loginresult.error){
+        return res.status(400).json({error: loginresult.error.message})
+    }
+
+    const { email,password } = loginresult.data
+    const check = await db
+        .select({
+            id: usersTable.id,
+            salt: usersTable.salt,
+            password: usersTable.password
+        })
+        .from(usersTable)
+        .where(eq(usersTable.email,email))
+    if (check.length === 0){
+        return res.status(404).json({error: `user with this email ${(email)} does not exist`})
+    }
+
+    const user = check[0]
+
+    const hashedPassword = createHmac('sha256', user.salt)
+        .update(password)
+        .digest('hex');
+
+    if (hashedPassword === user.password){
+        res.status(500).json({success:`user login is succefull`})
+    }
+    else{
+        res.status(400).json({error: `Password entered is invalid`})
+    }
+
+
+
+})
 export default router

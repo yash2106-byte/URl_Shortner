@@ -10,7 +10,6 @@ web.get('/',(req,res)=>{
     return res.json({status : "Server is running"})
 })
 web.use('/user',router)
-
 web.listen(PORT,()=>{
     console.log(`Server is running on ${PORT}`);
 })
