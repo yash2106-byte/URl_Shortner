@@ -5,6 +5,7 @@ import { createHmac, randomBytes } from 'crypto';
 import { signupPost,loginPost } from '../validation/request.validation.js';
 import { eq } from "drizzle-orm";
 import  jwt  from 'jsonwebtoken'
+import { signToken, validateToken } from '../utils/jwt.js';
 import { error } from 'console';
 import { success } from 'zod';
 
@@ -68,8 +69,7 @@ router.post('/login',async(req,res)=>{
         .digest('hex');
 
     if (hashedPassword === user.password) {
-    const token = jwt.sign({ id: user.id }, process.env.jwt_in);
-    { expiresIn: "1h" }
+    const token = signToken({ id: user.id }); 
     return res.status(200).json({
         message: "User login successful",
         token: token
@@ -78,8 +78,5 @@ router.post('/login',async(req,res)=>{
     else{
         res.status(400).json({error: `Password entered is invalid`})
     }
-
-
-
 })
 export default router
