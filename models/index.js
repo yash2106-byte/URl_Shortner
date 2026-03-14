@@ -1,2 +1,2 @@
-import { usersTable } from './schema.js'
-export default usersTable
+export { usersTable } from './schema.js'
+export { urlTable } from './url.js'
