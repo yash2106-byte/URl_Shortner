@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid'
 import { id } from 'zod/locales'
 import { eq } from 'drizzle-orm'
 import { error } from 'console'
+import { url } from 'inspector'
 
 const urlrouter = express.Router()
 
@@ -35,8 +36,18 @@ urlrouter.post('/shorten', async function(req,res){
     return res.status(201).json({ id: result.id,shortCode:result.shortCode})
 })
 
+
+
+
+urlrouter.get('/myCodes', async function (req,res){
+    const your_codes = await db
+        .select()
+        .from(urlTable)
+        .where(eq(urlTable.userId , req.user.id))
+    return res.json({ your_codes })
+})
+
 urlrouter.get('/:code',async function (req,res) {
-    console.log(urlTable)
     const shortcode = req.params.code
     const [result]= await db.select()
         .from(urlTable)
