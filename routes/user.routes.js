@@ -1,13 +1,11 @@
 import express from 'express'
-import db from '../src/db/index.js'
-import usersTable from '../models/index.js'
+import db from '../db/index.js'
+import {usersTable} from '../models/index.js'
 import { createHmac, randomBytes } from 'crypto';
 import { signupPost,loginPost } from '../validation/request.validation.js';
 import { eq } from "drizzle-orm";
 import  jwt  from 'jsonwebtoken'
 import { signToken, validateToken } from '../utils/jwt.js';
-import { error } from 'console';
-import { success } from 'zod';
 
 const router = express.Router();
 
