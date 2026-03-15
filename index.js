@@ -2,10 +2,11 @@ import express from 'express'
 import router from './Routes/user.routes.js';
 import { authMiddleware } from './middleware/auth.middleware.js'
 import urlrouter from './routes/url.router.js'
+import cors from 'cors'
 
 const web = express()
-const PORT = process.env.PORT ?? 8000;
-
+const PORT = process.env.PORT ?? 5173;
+web.use(cors({ origin: 'http://localhost:5173' }))
 web.use(express.json())
 
 web.get('/', (req, res) => {
