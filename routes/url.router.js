@@ -4,8 +4,13 @@ import  db  from '../db/index.js'
 import { urlTable } from '../models/index.js'
 import { nanoid } from 'nanoid'
 import { id } from 'zod/locales'
+import { eq } from 'drizzle-orm'
+import { error } from 'console'
 
 const urlrouter = express.Router()
+
+
+
 
 urlrouter.post('/shorten', async function(req,res){
     const userId = req.user.id ?? id
@@ -29,5 +34,20 @@ urlrouter.post('/shorten', async function(req,res){
 
     return res.status(201).json({ id: result.id,shortCode:result.shortCode})
 })
+
+urlrouter.get('/:code',async function (req,res) {
+    console.log(urlTable)
+    const shortcode = req.params.code
+    const [result]= await db.select()
+        .from(urlTable)
+        .where(eq(urlTable.shortCode, shortcode))
+        .execute()
+
+    if (!result){
+        return res.status(404).json({error:`${shortcode} is invalid`})
+    }
+
+    return res.redirect(result.targetUrl)
+    })
 
 export default urlrouter
