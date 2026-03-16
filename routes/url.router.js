@@ -5,7 +5,7 @@ import { urlTable } from '../models/index.js'
 import { nanoid } from 'nanoid'
 import { eq } from 'drizzle-orm'
 
-// ── Protected router (requires auth) ────────────────────────────────────────
+// ── Protected router (requires auth) 
 const urlrouter = express.Router()
 
 urlrouter.post('/shorten', async function(req, res) {
@@ -40,7 +40,7 @@ urlrouter.get('/myCodes', async function(req, res) {
 
 export default urlrouter
 
-// ── Public router (no auth — anyone can follow a short link) ─────────────────
+// ── Public router (no auth — anyone can follow a short link)
 export const publicUrlRouter = express.Router()
 
 publicUrlRouter.get('/:code', async function(req, res) {
