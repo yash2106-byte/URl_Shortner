@@ -1,11 +1,11 @@
 import express from 'express'
 import router from './Routes/user.routes.js';
 import { authMiddleware } from './middleware/auth.middleware.js'
-import urlrouter from './routes/url.router.js'
+import urlrouter, { publicUrlRouter } from './routes/url.router.js'
 import cors from 'cors'
 
 const web = express()
-const PORT = process.env.PORT ?? 5173;
+const PORT = process.env.PORT ?? 8000;
 web.use(cors({ origin: 'http://localhost:5173' }))
 web.use(express.json())
 
@@ -16,7 +16,10 @@ web.get('/', (req, res) => {
 // Public routes — no auth needed
 web.use('/user', router)
 
-// Protected routes — auth applied only here
+// Public redirect route — no auth needed (browsers visiting short URLs don't send tokens)
+web.use(publicUrlRouter)
+
+// Protected URL routes — auth required
 web.use(authMiddleware, urlrouter)
 
 web.listen(PORT, () => {
